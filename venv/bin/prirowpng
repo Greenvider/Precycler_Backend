@@ -1,4 +1,4 @@
-#!/home/verdo/바탕화면/precycler/venv/bin/python
+#!/home/ubuntu/Precycler_Backend/venv/bin/python3
 
 # http://www.python.org/doc/2.4.4/lib/module-itertools.html
 import itertools
