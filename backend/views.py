@@ -109,10 +109,10 @@ def qr(request): #qr처리 api
         return Response('ecoact') #환경활동 시 응답
     elif "precycler_use" in a:
         b = a[14:]
-        if obj.point >= int(b):
-            obj.point = obj.point - int(b) #포인트 차감
+        if obj.point >= int(10):  #  b):
+            obj.point = obj.point - 10   #int(b) #포인트 차감
             obj.save()
-            return Response("use_"+b) #포인트 사용시 응답
+            return Response("use_"+ "10") #  b) #포인트 사용시 응답
         return Response('nom') #포인트 사용 시도, 포인트 부족 시 응답
     else:
         return Response('error2') #다른 qr인식 시 응답
