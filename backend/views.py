@@ -73,7 +73,8 @@ def addr(request):
     geolocoder = Nominatim(user_agent = 'South Korea', timeout=None)
     address = str(geolocoder.reverse(str(ulat)+", "+str(ulog)))
     a = address.split(', ')
-    return Response(a[5] + "시 " + a[4] + " " + a[3], content_type=u"application/json; charset=utf-8") #리스트 반환
+    
+    return Response(a[a.index('대한민국')-2] + "시 " + a[a.index('대한민국')-3] + " " + a[a.index('대한민국')-4], content_type=u"application/json; charset=utf-8") #리스트 반환
 
 @csrf_exempt
 @api_view(['POST']) #로그인 api
