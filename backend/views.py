@@ -53,11 +53,8 @@ def map(request):
     for pname in Stores.objects.values('name','latitude','longitude','location'):
         print(pname)
         m = (round(float(ulat),7),round(float(ulog),7))
-        print(m)
         n = (round(pname['latitude'],7),round(pname['longitude'],7))
-        print(n)
         dis = haversine(m,n,unit='m')
-        print(dis)
         b = {}
         b['nl'] = pname['name']+"|"+pname['location']
         b['dis'] = dis
@@ -91,7 +88,7 @@ def point(request):
     data = request.data
     search_mid = data['mid']
     obj = Member.objects.get(mid=search_mid)
-    return Response(obj.name,obj.point) #이름은 문자열로, 포인트는 정수형으로 반환
+    return Response(obj.name+"|"+str(obj.point)) #이름, 포인트 문자열로 반환
 
 
 @api_view(['POST'])
