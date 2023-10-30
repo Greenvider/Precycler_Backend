@@ -88,7 +88,7 @@ def point(request):
     data = request.data
     search_mid = data['mid']
     obj = Member.objects.get(mid=search_mid)
-    return Response(obj.name+"|"+str(obj.point)) #이름, 포인트 문자열로 반환
+    return Response(obj.name+"|"+str(obj.point), content_type=u"application/json; charset=utf-8") #이름, 포인트 문자열로 반환
 
 
 @api_view(['POST'])
@@ -111,7 +111,7 @@ def qr(request): #qr처리 api
         return Response('ecoact') #환경활동 시 응답
     elif "precycler_use" in a:
         b = a[14:]
-        if obj.point >= int(10):  #  b):
+        if obj.point >= int(b):
             obj.point = obj.point - 10   #int(b) #포인트 차감
             obj.save()
             return Response("use_"+ "10") #  b) #포인트 사용시 응답
