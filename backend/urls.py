@@ -11,4 +11,5 @@ urlpatterns = [
     path('point/', views.point, name="point"),
     path('inquiry/', views.inquiry, name="inquiry"),
     path('map/', views.map, name="map"),
+    path('addr/', views.addr, name="addr"),
 ]

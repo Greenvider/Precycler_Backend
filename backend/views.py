@@ -7,6 +7,7 @@ from .models import Member, Stores, Inquiry
 from .serializers import MemberSerializer, StoreSerializer, InquirySerializer
 from .qrcheck import qrck
 from haversine import haversine
+from geopy.geocoders import Nominatim
 
 @csrf_exempt
 @api_view(['POST'])
@@ -62,6 +63,17 @@ def map(request):
         c = c+1
     d = sorted(a, key=lambda x: x["dis"])
     return Response(d, content_type=u"application/json; charset=utf-8") #리스트 반환
+
+@csrf_exempt
+@api_view(['POST']) #가게 정렬 목록 api
+def addr(request):
+    data = request.data
+    ulat = data['lat']
+    ulog = data['log']
+    geolocoder = Nominatim(user_agent = 'South Korea', timeout=None)
+    address = str(geolocoder.reverse(str(ulat)+", "+str(ulog)))
+    a = address.split(', ')
+    return Response(a[5] + "시 " + a[4] + " " + a[3], content_type=u"application/json; charset=utf-8") #리스트 반환
 
 @csrf_exempt
 @api_view(['POST']) #로그인 api
