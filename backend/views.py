@@ -61,7 +61,7 @@ def map(request):
         a[c] = b
         c = c+1
     d = sorted(a, key=lambda x: x["dis"])
-    return Response(d) #리스트 반환
+    return Response(d, content_type=u"application/json; charset=utf-8") #리스트 반환
 
 @csrf_exempt
 @api_view(['POST']) #로그인 api
