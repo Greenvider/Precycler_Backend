@@ -81,12 +81,12 @@ def login(request):
     return Response('misid') #아이디가 올바르지 않을때 응답
 
 @csrf_exempt
-@api_view(['POST']) #포인트 확인 api
+@api_view(['POST']) #이름,포인트 확인 api
 def point(request):
     data = request.data
     search_mid = data['mid']
     obj = Member.objects.get(mid=search_mid)
-    return Response(obj.point) #포인트를 정수형으로 반환
+    return Response(obj.name,obj.point) #이름은 문자열로, 포인트는 정수형으로 반환
 
 
 @api_view(['POST'])
