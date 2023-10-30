@@ -43,6 +43,8 @@ def Store(request): #가게 목록 api (정렬X)
     serializer = StoreSerializer(snippets, many=True)
     return Response(serializer.data)
 
+
+
 @csrf_exempt
 @api_view(['POST']) #가게 정렬 목록 api
 def map(request):
@@ -65,7 +67,7 @@ def map(request):
     return Response(d, content_type=u"application/json; charset=utf-8") #리스트 반환
 
 @csrf_exempt
-@api_view(['POST']) #가게 정렬 목록 api
+@api_view(['POST']) #현재 위치 api
 def addr(request):
     data = request.data
     ulat = data['lat']
@@ -94,6 +96,21 @@ def login(request):
             else:
                 return Response('mismatch') #비밀번호가 올바르지 않을때 응답
     return Response('misid') #아이디가 올바르지 않을때 응답
+
+@csrf_exempt
+@api_view(['PUT']) #정보번경 api
+def change(request):
+    req = request.data
+    search_mid = req['mid']
+    obj = Member.objects.get(mid=search_mid)
+    serializer = MemberSerializer(obj, data=req)
+    passw = req['password']
+    if (not any(char.isalpha() for char in passw)) or (not any(char.isdigit() for char in passw)) or (len(passw) < 8) or (len(passw) > 15): #비밀번호 양식 확인
+        return Response('rpas') #양식 불일치시 응답
+    if serializer.is_valid():
+        serializer.save()
+        return Response('ok') #가입완료시 응답
+    return Response('error') #양식이 올바르지 않을때 응답
 
 @csrf_exempt
 @api_view(['POST']) #이름,포인트 확인 api

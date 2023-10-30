@@ -12,4 +12,5 @@ urlpatterns = [
     path('inquiry/', views.inquiry, name="inquiry"),
     path('map/', views.map, name="map"),
     path('addr/', views.addr, name="addr"),
+    path('change/', views.change, name="change"),
 ]
