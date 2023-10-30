@@ -1,6 +1,14 @@
-import cv2
-from qrcheck import qrck
+a = [
+    {
+        "nl": "버터풀앤크리멀러스 삼성점|서울 강남구 테헤란로83길 47",
+        "dis": 9529.430613681676
+    },
+    {
+        "nl": "스타벅스 외대점|서울 동대문구 이문로 93",
+        "dis": 99.82908735934124
+    }
+]
 
-img = cv2.imread("./qr.jpg")
-a = qrck(img)
-print(a)
+b = sorted(a, key=lambda x: x["dis"])
+print(b)
+

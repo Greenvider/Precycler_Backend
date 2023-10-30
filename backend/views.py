@@ -48,7 +48,8 @@ def map(request):
     data = request.data
     ulat = data['lat']
     ulog = data['log']
-    b = {}
+    a = [0] * len(Stores.objects.values('name','latitude','longitude','location'))
+    c = 0
     for pname in Stores.objects.values('name','latitude','longitude','location'):
         print(pname)
         m = (round(float(ulat),7),round(float(ulog),7))
@@ -57,9 +58,13 @@ def map(request):
         print(n)
         dis = haversine(m,n,unit='m')
         print(dis)
-        b[pname['name']+"|"+pname['location']] = dis
-        b1 = dict(sorted(b.items(), key=lambda x: x[1]))
-    return Response(b1) #리스트 반환
+        b = {}
+        b['nl'] = pname['name']+"|"+pname['location']
+        b['dis'] = dis
+        a[c] = b
+        c = c+1
+    d = sorted(a, key=lambda x: x["dis"])
+    return Response(d) #리스트 반환
 
 @csrf_exempt
 @api_view(['POST']) #로그인 api
