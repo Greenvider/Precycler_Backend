@@ -7,7 +7,8 @@ from .models import Member, Stores, Inquiry
 from .serializers import MemberSerializer, StoreSerializer, InquirySerializer
 from .qrcheck import qrck
 from haversine import haversine
-from geopy.geocoders import Nominatim
+from .apkkey import key
+import requests, json
 
 @csrf_exempt
 @api_view(['POST'])
@@ -72,11 +73,15 @@ def addr(request):
     data = request.data
     ulat = data['lat']
     ulog = data['log']
-    geolocoder = Nominatim(user_agent = 'South Korea', timeout=None)
-    address = str(geolocoder.reverse(str(ulat)+", "+str(ulog)))
-    a = address.split(', ')
+    k = key()
+    url = "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x="+ulog+"&y="+ulat
+    headers = {"Authorization": "KakaoAK "+k}
+    api_json = requests.get(url, headers=headers)
+    full_address = json.loads(api_json.text)
+
+    add = full_address['documents'][full_address['meta']['total_count']-1]['address_name']
     
-    return Response(a[a.index('대한민국')-2] + "시 " + a[a.index('대한민국')-3] + " " + a[a.index('대한민국')-4], content_type=u"application/json; charset=utf-8") #리스트 반환
+    return Response(add, content_type=u"application/json; charset=utf-8") #리스트 반환
 
 @csrf_exempt
 @api_view(['POST']) #로그인 api
@@ -142,9 +147,9 @@ def qr(request): #qr처리 api
     elif "precycler_use" in a:
         b = a[14:]
         if obj.point >= int(b):
-            obj.point = obj.point - 10   #int(b) #포인트 차감
+            obj.point = obj.point - int(b) #포인트 차감
             obj.save()
-            return Response("use_"+ "10") #  b) #포인트 사용시 응답
+            return Response("use_"+ b) #포인트 사용시 응답
         return Response('nom') #포인트 사용 시도, 포인트 부족 시 응답
     else:
         return Response('error2') #다른 qr인식 시 응답
