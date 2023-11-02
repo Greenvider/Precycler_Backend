@@ -12,7 +12,8 @@ def qrck(img):
     S = Image.fromarray(img_out)
     S.save('./convert.png', 'png')
     a = Image.open("./convert.png")
-    decoded = decode(a)
+    b = a.convert("L")
+    decoded = decode(b)
     os.remove("./convert.png")
     if len(decoded) == 1:
         for d in decoded:
