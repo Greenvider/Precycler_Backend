@@ -14,9 +14,9 @@ img.save("./qr_bus.png")
 
 qr_ecoact = qrcode.QRCode(
     version = 3,
-    error_correction=qrcode.constants.ERROR_CORRECT_M,
+    error_correction=qrcode.constants.ERROR_CORRECT_H,
     box_size=20,
-    border=10,
+    border=15,
 )
 qr_ecoact.add_data('precycler_ecoact')
 qr_ecoact.make(fit=True)
