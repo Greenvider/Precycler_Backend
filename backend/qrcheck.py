@@ -14,7 +14,6 @@ def qrck(img):
     a = Image.open("./convert.png")
     b = a.convert("L")
     decoded = decode(b)
-    os.remove("./convert.png")
     if len(decoded) == 1:
         for d in decoded:
             barcode_data = d.data.decode("utf-8")
